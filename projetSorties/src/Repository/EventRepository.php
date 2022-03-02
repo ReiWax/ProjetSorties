@@ -84,7 +84,9 @@ class EventRepository extends ServiceEntityRepository
             ->createQueryBuilder('e')
             ->select('u', 'e')
             ->join('e.organizer', 'u')
-            ->join('e.state', 's');
+            ->join('e.state', 's')
+            ->where("DATE_ADD(e.dateTimeStartAt,1,'MONTH') > :now")
+            ->setParameter('now',new \DateTime('now'));
 
         if (!empty($search->name)) {
             $qb = $qb
