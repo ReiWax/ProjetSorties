@@ -39,13 +39,13 @@
             <td>{{ e.state.libelle }}</td>
             <td>*</td>
             <td><a href="#">{{e.organizer.name}}</a></td>
-            <td>*</td>
+            <td></td>
         </tr>
     {% endfor %}
 </tbody>
 </table>
 </div>
 
-<a href="#">Créer une sortie</a>
+<a href="{{path('app_event')}}">Créer une sortie</a>
 </div>
 {% endblock %}
