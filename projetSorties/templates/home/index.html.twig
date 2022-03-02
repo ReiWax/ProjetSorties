@@ -9,8 +9,43 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
     
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input type="submit" value="Rechercher">
+    {{ form_end(form) }}
+    <div>
+    <table>
+        <thead>
+            <tr>
+                <th>Nom de la sortie</th>
+                <th>Date de la sortie</th>
+                <th>Clôture</th>
+                <th>Inscrits / Places</th>
+                <th>Etat</th>
+                <th>Inscrit</th>
+                <th>Organisateur</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+    <tbody>
+    {% for e in events %}
+        <tr>
+            <td>{{ e.name }}</td>
+            <td>{{ e.dateTimeStartAt|date('d-m-Y')}}</td>
+            <td>{{ e.dateLimitRegistrationAt|date('d-m-Y')}}</td>
+            <td> * / {{ e.nbmaxregistration }}</td>
+            <td>{{ e.state.libelle }}</td>
+            <td>*</td>
+            <td><a href="#">{{e.organizer.name}}</a></td>
+            <td></td>
+        </tr>
+    {% endfor %}
+</tbody>
+</table>
+</div>
+
+<a href="{{path('app_event')}}">Créer une sortie</a>
 </div>
 {% endblock %}
