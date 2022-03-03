@@ -71,4 +71,10 @@ class UserController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    #[Route('/user_detail/{id}', name: 'app_user_detail')]
+    public function detailUser($id){
+        $user = $this->entityManager->getRepository(User::class)->find($id);
+        return $this->render('user/detail.html.twig', ['user' => $user]);
+    }
 }

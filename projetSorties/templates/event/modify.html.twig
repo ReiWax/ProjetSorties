@@ -25,12 +25,17 @@
         {{form_row(form.nbMaxRegistration, {'label': 'Nombre de places','value' : event.nbMaxRegistration})}}
         {{form_row(form.description, {'label': 'Descriptions et Infos','value' : event.description})}}
     </div>
+
+    <div>
+        
+    </div>
+    
     <div class="container text-center">
-        {#<button>Enregistrer</button>#}
         <button type="submit">Enregistrer</button>
         <button>Annuler</button>
     </div> 
-    {# {{ form_end(formLieu) }} #}
     {{ form_end(form) }}
+
+ 
 </div>
 {% endblock %}

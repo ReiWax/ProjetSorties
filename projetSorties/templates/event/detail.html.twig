@@ -45,7 +45,7 @@
                     </tr>
                 </thead>
                 {% for u  in event.users %}
-                    <td>{{ u.pseudo }}</td>
+                <td> <a href="{{path('app_user_detail',{'id': u.id})}}">{{ u.pseudo }}</a></td>
                     <td>{{ u.name }} {{u.lastname|upper}}</td>
                 {% endfor %}
             </table>
