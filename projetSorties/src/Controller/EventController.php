@@ -73,7 +73,7 @@ class EventController extends AbstractController
         $em->persist($user);
         $em->flush();
 
-        return $this->render('event/register.html.twig');
+        return $this->redirectToRoute('app_home');            
     }
 
     #[Route('/event_unsubscribe/{id}', name: 'app_event_unsubscribe')]
@@ -84,8 +84,7 @@ class EventController extends AbstractController
         $user->removeEvent($event);
         $em->persist($user);
         $em->flush();
-
-        return $this->render('event/register.html.twig');
+        return $this->redirectToRoute('app_home');            
     }
 
     #[Route('/event_detail/{id}', name: 'app_event_detail')]
