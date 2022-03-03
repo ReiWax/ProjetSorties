@@ -81,7 +81,6 @@ class UserController extends AbstractController
 
         /** @var User $user */
         $user = $this->getUser();
-
         return $this->render('user/profil.html.twig');
     }
 

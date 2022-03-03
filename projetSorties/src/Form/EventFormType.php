@@ -43,7 +43,7 @@ class EventFormType extends AbstractType
                 ]
             ])
             ->add('duration', IntegerType::class,[
-                'label' => 'Durée',
+                'label' => 'Durée (en minutes)',
             ])
             ->add('nbMaxRegistration', IntegerType::class,[
                 'label' => 'Nombre de places',
@@ -55,7 +55,8 @@ class EventFormType extends AbstractType
                 'label' => 'Descriptions et Infos',
                 'attr' => [
                     'placeholder' => ''
-                ]
+                ],
+                'required' => false
             ])
             ->add('adress', EntityType::class, [
                 'label' => 'Choisir une adresse',

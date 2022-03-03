@@ -95,15 +95,18 @@ class EventController extends AbstractController
 
     #[Route('/event_modify/{id}', name: 'app_event_modify')]
     public function modifyEvent(EntityManagerInterface $em,$id,Request $request){
-        $event = new Event();
+        /** @var User $user */
+        $user = $this->getUser();
+        $event = $this->entityManager->getRepository(Event::class)->find($id);
+        $event->setOrganizer($user);
         $form = $this->createForm(EventFormType::class, $event);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $em->persist($event);
-            $em->flush();
+            $this->entityManager->flush();
             return $this->redirectToRoute('app_home');            
         }
         $event =  $this->entityManager->getRepository(Event::class)->find($id);
         return $this->render('event/modify.html.twig', [ 'form' => $form->createView(),'event' => $event]);
     }
+
 }

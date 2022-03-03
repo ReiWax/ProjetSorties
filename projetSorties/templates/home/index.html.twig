@@ -45,18 +45,18 @@
             <td><a href="{{path('app_user_detail',{'id': e.organizer.id})}}">{{e.organizer.name}}</a></td>
             <td>
                 {% if app.user %}
-                    {% if e.state.id == 1 and e.dateLimitRegistrationAt > date('now') %}
+                    {% if e.state.id == 4 and e.dateLimitRegistrationAt < date('tomorrow') %}
                         {% if e.users.contains(app.user) and e.organizer.id != app.user.id %}
                             <a href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> -
                             <a href="{{path('app_event_unsubscribe', {'id':e.id})}}">Se désister</a>
                         {% elseif e.organizer.id == app.user.id and e.users.contains(app.user) %}
                             <a href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> - 
                             <a href="{{path('app_event_unsubscribe', {'id':e.id})}}">Se désister</a> - 
-                            <a href="{{path('app_event_modify', {'id':e.id})}}">Modifier</a>
+                            {% if e.dateTimeStartAt > date('now') %}<a href="{{path('app_event_modify', {'id':e.id})}}">Modifier</a>{% endif %}
                         {% elseif e.organizer.id == app.user.id %}
                             <a href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> - 
                             <a href="{{path('app_event_register', {'id':e.id})}}">S'inscrire</a> - 
-                            <a href="{{path('app_event_modify', {'id':e.id})}}">Modifier</a>
+                            {% if e.dateTimeStartAt > date('now') %}<a href="{{path('app_event_modify', {'id':e.id})}}">Modifier</a>{% endif %}
                         {% else %}
                             <a href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> - 
                             <a href="{{path('app_event_register', {'id':e.id})}}">S'inscrire</a>
