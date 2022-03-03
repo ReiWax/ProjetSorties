@@ -11,10 +11,8 @@
 <div class="example-wrapper">
     
 {% form_theme form 'bootstrap_5_layout.html.twig' %}
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <input type="submit" value="Rechercher">
-    {{ form_end(form) }}
+{{ form(form) }}
+
     <div>
     <table>
         <thead>

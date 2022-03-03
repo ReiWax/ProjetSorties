@@ -6,6 +6,7 @@ use App\Entity\Adress;
 use App\Entity\Event;
 use App\Entity\Location;
 use App\Entity\State;
+use App\Entity\City;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
