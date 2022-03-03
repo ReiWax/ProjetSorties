@@ -74,6 +74,7 @@ class UserController extends AbstractController
         ]);
     }
 
+
     #[Route('/user/profil', name: 'app_user_profil')]
     public function profil(Request $request, UserPasswordHasherInterface $userPasswordHash, SluggerInterface $slugger): Response
     {
@@ -82,5 +83,11 @@ class UserController extends AbstractController
         $user = $this->getUser();
 
         return $this->render('user/profil.html.twig');
+    }
+
+    #[Route('/user_detail/{id}', name: 'app_user_detail')]
+    public function detailUser($id){
+        $user = $this->entityManager->getRepository(User::class)->find($id);
+        return $this->render('user/detail.html.twig', ['user' => $user]);
     }
 }

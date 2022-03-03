@@ -21,10 +21,18 @@ class SearchFormType extends AbstractType
                 ])
             ->add('dateTimeStartAt', DateTimeType::class, [
                 'label' => 'Date de la sortie',
+                'widget' => 'single_text', 
+                'attr' => [
+                    'placeholder' => ''
+                ],
                 'required'=>false,
             ])
             ->add('dateLimitRegistrationAt',  DateTimeType::class, [
-                'label' => 'Clôture',
+                'label' => 'Date fin des inscriptions',
+                'widget' => 'single_text', 
+                'attr' => [
+                    'placeholder' => ''
+                ],
                 'required'=>false
             ])
             ->add('eventIsOrganizer', CheckboxType::class, [
