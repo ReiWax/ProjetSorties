@@ -114,7 +114,7 @@ class EventRepository extends ServiceEntityRepository
 
         if(!empty($search->eventFinished)){
             $qb = $qb
-            ->andWhere('e.dateLimitRegistrationAt < :now')
+            ->andWhere('e.dateTimeStartAt > :now')
             ->setParameter('now',new \DateTime('now'));
         }
         
