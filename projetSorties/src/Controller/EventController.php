@@ -36,23 +36,24 @@ class EventController extends AbstractController
         $user = $this->getUser(); 
 
         $event = new Event();
-        $adress = $this->entityManager->getRepository(Adress::class)->find(1);
-        $location = $this->entityManager->getRepository(Location::class)->find(1);
-        $state = $this->entityManager->getRepository(State::class)->find(1);
+        //$adress = $this->entityManager->getRepository(Adress::class)->find(1);
+        //$location = $this->entityManager->getRepository(Location::class)->find(1);
+        //$state = $this->entityManager->getRepository(State::class)->find(1);
 
         $form = $this->createForm(EventFormType::class, $event);
 
-        $event->getUsers($user);
-        $event->setOrganizer($user);
-        $event->setAdress($adress);
-        $event->setLocation($location);
-        $event->setState($state);
+        
+        //$event->setAdress($adress);
+        //$event->setLocation($location);
+        //$event->setState($state);
         
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            $event->getUsers($user);
+            $event->setOrganizer($user);
+            
             $em->persist($event);
-
             $em->flush();
         
             return $this->redirectToRoute('app_home');            
