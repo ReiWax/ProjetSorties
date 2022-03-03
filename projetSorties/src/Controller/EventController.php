@@ -7,8 +7,12 @@ use App\Entity\Event;
 use App\Entity\Location;
 use App\Entity\State;
 use App\Entity\User;
+use App\Entity\UserEvent;
 
 use App\Form\EventFormType;
+use App\Repository\EventRepository;
+use App\Repository\UserEventRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +34,6 @@ class EventController extends AbstractController
 
         /** @var User $user */
         $user = $this->getUser(); 
-        // dd($user->getId());
 
         $event = new Event();
         $adress = $this->entityManager->getRepository(Adress::class)->find(1);
@@ -58,5 +61,49 @@ class EventController extends AbstractController
         return $this->render('event/index.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/event_register/{id}', name: 'app_event_register')]
+    public function registerEvent(EntityManagerInterface $em,$id){
+        /** @var User $user */
+        $user = $this->getUser(); 
+        $event =  $this->entityManager->getRepository(Event::class)->find($id);
+        $user->addEvent($event);
+        $em->persist($user);
+        $em->flush();
+
+        return $this->render('event/register.html.twig');
+    }
+
+    #[Route('/event_unsubscribe/{id}', name: 'app_event_unsubscribe')]
+    public function unsubscribeEvent(EntityManagerInterface $em,$id){
+        /** @var User $user */
+        $user = $this->getUser(); 
+        $event =  $this->entityManager->getRepository(Event::class)->find($id);
+        $user->removeEvent($event);
+        $em->persist($user);
+        $em->flush();
+
+        return $this->render('event/register.html.twig');
+    }
+
+    #[Route('/event_detail/{id}', name: 'app_event_detail')]
+    public function detailEvent(EntityManagerInterface $em,$id){
+        $event =  $this->entityManager->getRepository(Event::class)->find($id);
+        return $this->render('event/detail.html.twig', ['event' => $event]);
+    }
+
+    #[Route('/event_modify/{id}', name: 'app_event_modify')]
+    public function modifyEvent(EntityManagerInterface $em,$id,Request $request){
+        $event = new Event();
+        $form = $this->createForm(EventFormType::class, $event);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $em->persist($event);
+            $em->flush();
+            return $this->redirectToRoute('app_home');            
+        }
+        $event =  $this->entityManager->getRepository(Event::class)->find($id);
+        return $this->render('event/modify.html.twig', [ 'form' => $form->createView(),'event' => $event]);
     }
 }
