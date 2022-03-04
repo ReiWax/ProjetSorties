@@ -33,6 +33,7 @@ class LocationController extends AbstractController
             $em->persist($location);
             $em->flush();
         
+            $this->addFlash('success', 'Ajout d un Lieux réussi');
             return $this->redirectToRoute('app_home');
         }
 

@@ -2,17 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Adress;
 use App\Entity\Event;
-use App\Entity\Location;
-use App\Entity\State;
 use App\Entity\User;
-use App\Entity\UserEvent;
 
 use App\Form\EventFormType;
-use App\Repository\EventRepository;
-use App\Repository\UserEventRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,8 +48,9 @@ class EventController extends AbstractController
             
             $em->persist($event);
             $em->flush();
+            $this->addFlash('success', 'Ajout d un event réussi');
         
-            return $this->redirectToRoute('app_home');            
+            return $this->redirectToRoute('app_home');  
         }
 
         return $this->render('event/index.html.twig', [
