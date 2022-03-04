@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Création d'une Sortie !{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    div#container{width:800px;padding:5px;}  
+    div#left{float:left;width:100%;margin-left:-25%}  
+    div#right{margin-left:25%;width:100%}
+</style>
+
+<div class="example-wrapper">
+    <div class="container text-center">
+        <h1>Detail de la sortie {{event.name }}</h1>
+        {% if event.state.id != 2 %}
+        <div>
+            <div>
+                <p>Date et heure de la sortie : {{event.dateTimeStartAt|date('Y-m-d H:m:s')}}</p>
+                <p>Date limite d'inscription : {{event.dateLimitRegistrationAt|date('Y-m-d H:m:s')}}</p>
+                <p>Nombre de places : {{event.nbMaxRegistration}}</p>
+                <p>Durée : {{event.duration}} {% if event.duration < 1 %}minute{% else %}minutes{% endif %}</p>
+                {% if event.description != null%}<p>Description et infos : {{event.description}}</p>{% endif %}
+            </div>
+            <div>
+                <p>Ville organisatrice : {{event.location.city.name}}</p>
+                <p>Lieu : {{event.location.name}}</p>
+                <p>Rue : {{event.location.street}}</p>
+                <p>Code postal : {{event.location.city.zipCode}}</p>
+                {% if event.location.lat != null and event.location.long != null%}
+                <p>Latitude : {{event.location.lat}}</p>
+                <p>Longitude : {{event.location.long}}</p>
+                {% endif %}
+            </div>
+        </div>
+       
+        <div>
+            <table>
+                <caption align="top">Liste des participants</caption>
+
+                <thead>
+                    <tr>
+                        <th>Pseudo</th>
+                        <th>Nom</th>
+                    </tr>
+                </thead>
+                {% for u  in event.users %}
+                <td> <a href="{{path('app_user_detail',{'id': u.id})}}">{{ u.pseudo }}</a></td>
+                    <td>{{ u.name }} {{u.lastname|upper}}</td>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -8,7 +8,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\EventRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Data\SearchData;
+use App\Entity\Event;
 use App\Form\SearchFormType;
+use Doctrine\ORM\EntityManager;
 
 class HomeController extends AbstractController
 {
@@ -20,7 +22,9 @@ class HomeController extends AbstractController
       $data = new SearchData();
       $form = $this->createForm(SearchFormType::class, $data);
       $form->handleRequest($request);
-      $events = $repository->findSearch($data,$user);
+      $events = $repository->findSearch($data,$user);  
+ 
       return $this->render('home/index.html.twig', ['events' => $events, 'form' => $form->createView()]);
     }
+    
 }

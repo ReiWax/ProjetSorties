@@ -114,23 +114,11 @@ class EventRepository extends ServiceEntityRepository
 
         if(!empty($search->eventFinished)){
             $qb = $qb
-            ->andWhere('e.dateLimitRegistrationAt < :now')
+            ->andWhere('e.dateTimeStartAt > :now')
             ->setParameter('now',new \DateTime('now'));
         }
         
         $query = $qb->getQuery();
         return $query->getResult();
     }
-
-
-    public function findAllSortieWithOrganisateur(){
-            $qb = $this->createQueryBuilder('e');
-            $qb->join('e.organizer', 'u')
-            ->addSelect('u')
-            ->orderBy('e.dateTimeStartAt', 'DESC');
-            $query = $qb->getQuery();
-            return $query->getResult();
-    }
-
-
 }

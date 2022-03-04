@@ -11,17 +11,15 @@
 <div class="example-wrapper">
     
 {% form_theme form 'bootstrap_5_layout.html.twig' %}
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <input type="submit" value="Rechercher">
-    {{ form_end(form) }}
+{{ form(form) }}
+
     <div>
     <table>
         <thead>
             <tr>
                 <th>Nom de la sortie</th>
                 <th>Date de la sortie</th>
-                <th>Clôture</th>
+                <th>Date fin des inscriptions</th>
                 <th>Inscrits / Places</th>
                 <th>Etat</th>
                 <th>Inscrit</th>
@@ -35,11 +33,40 @@
             <td>{{ e.name }}</td>
             <td>{{ e.dateTimeStartAt|date('d-m-Y')}}</td>
             <td>{{ e.dateLimitRegistrationAt|date('d-m-Y')}}</td>
-            <td> * / {{ e.nbmaxregistration }}</td>
+            <td>{{ e.users|length }} / {{ e.nbmaxregistration }}</td>
             <td>{{ e.state.libelle }}</td>
-            <td>*</td>
-            <td><a href="#">{{e.organizer.name}}</a></td>
-            <td></td>
+            <td>
+                {% if e.users.contains(app.user) %}
+                Oui
+                {% else %}
+                Non
+                {% endif %}
+            </td>
+            <td><a href="{{path('app_user_detail',{'id': e.organizer.id})}}">{{e.organizer.name}}</a></td>
+            <td>
+                {% if app.user %}
+                    {% if e.state.id == 4 and e.dateLimitRegistrationAt < date('tomorrow') %}
+                        {% if e.users.contains(app.user) and e.organizer.id != app.user.id %}
+                            <a href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> -
+                            <a href="{{path('app_event_unsubscribe', {'id':e.id})}}">Se désister</a>
+                        {% elseif e.organizer.id == app.user.id and e.users.contains(app.user) %}
+                            <a href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> - 
+                            <a href="{{path('app_event_unsubscribe', {'id':e.id})}}">Se désister</a> - 
+                            {% if e.dateTimeStartAt > date('now') %}<a href="{{path('app_event_modify', {'id':e.id})}}">Modifier</a>{% endif %}
+                        {% elseif e.organizer.id == app.user.id %}
+                            <a href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> - 
+                            <a href="{{path('app_event_register', {'id':e.id})}}">S'inscrire</a> - 
+                            {% if e.dateTimeStartAt > date('now') %}<a href="{{path('app_event_modify', {'id':e.id})}}">Modifier</a>{% endif %}
+                        {% else %}
+                            <a href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> - 
+                            <a href="{{path('app_event_register', {'id':e.id})}}">S'inscrire</a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a>
+                    {% endif %}
+                {% endif %}
+
+            </td>
         </tr>
     {% endfor %}
 </tbody>

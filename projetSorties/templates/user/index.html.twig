@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier son Profil{% endblock %}
+
+{% block body %}
+<div class="container pt-5">
+    <div class="row">
+
+        <div class="col-4">
+        {% if app.user and app.user.illustration != null %}
+            <img src="{{ asset('/uploads/') }}{{app.user.illustration}}" class="img-thumbnail img-fluid rounded"> 
+        {% endif %}
+        </div>
+        <div class="col-8">
+            <h1>Modifier son profil</h1>
+            {% form_theme form 'bootstrap_5_layout.html.twig' %}
+            {{ form(form) }}
+            <a class="btn btn-primary" href="{{ path('app_user_profil') }}" role="button">Retour</a>
+        </div>
+        
+        
+    </div>
+</div>
+{% endblock %}

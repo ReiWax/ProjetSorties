@@ -38,7 +38,7 @@
 
                     {% if app.user %}
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Mon profil</a>
+                            <a class="nav-link active" href="{{ path('app_user_profil') }}">Mon profil</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" href="{{path('app_logout')}}">Se déconnecter</a>
@@ -46,6 +46,8 @@
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link active" href="{{path('app_login')}}">Se connecter</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link active" href="{{path('app_register')}}">Créer un compte</a>
                         </li>
                     {% endif %}
@@ -56,8 +58,11 @@
     </nav>
     </header>
     <body>
-        {% block body %}{% endblock %}
 
+    <div class="container">
+        {% block body %}{% endblock %}
+    </div>
+    
         <footer class="bg-light text-center text-lg-start">
         <!-- Copyright -->
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
