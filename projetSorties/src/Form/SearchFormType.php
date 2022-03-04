@@ -20,15 +20,15 @@ class SearchFormType extends AbstractType
                 'label' => 'Le nom de la sortie contient : '
                 ])
             ->add('dateTimeStartAt', DateTimeType::class, [
-                'label' => 'Date de la sortie',
+                'label' => 'Entre le ',
                 'widget' => 'single_text', 
                 'attr' => [
                     'placeholder' => ''
                 ],
                 'required'=>false,
             ])
-            ->add('dateLimitRegistrationAt',  DateTimeType::class, [
-                'label' => 'Date fin des inscriptions',
+            ->add('dateFinishAt',  DateTimeType::class, [
+                'label' => ' et ',
                 'widget' => 'single_text', 
                 'attr' => [
                     'placeholder' => ''

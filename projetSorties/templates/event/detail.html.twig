@@ -35,6 +35,9 @@
         </div>
        
         <div>
+        {% if event.users is empty %}
+        <p>Pas encore de participant.</p>
+        {% else %}
             <table>
                 <caption align="top">Liste des participants</caption>
 
@@ -50,6 +53,11 @@
                 {% endfor %}
             </table>
         </div>
+<<<<<<< Updated upstream
+=======
+        {% endif %}
+        {% endif %}
+>>>>>>> Stashed changes
     </div>
 </div>
 {% endblock %}
