@@ -66,6 +66,7 @@ class UserController extends AbstractController
             );
         
             $this->entityManager->flush();
+            $this->addFlash('success', 'Modification du profil effectué');
             return $this->redirectToRoute('app_user_profil');
         }
 
