@@ -18,6 +18,11 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            remember_me:
+                secret: '%env(APP_SECRET)%' # required
+                lifetime: 604800 # 1 week in seconds
+                always_remember_me: true
+                path: _index
             lazy: true
             provider: app_user_provider
             custom_authenticator: App\Security\LoginAuthenticator
