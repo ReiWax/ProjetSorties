@@ -36,6 +36,7 @@ class RegistrationController extends AbstractController
             $user->setActive(true);
             $entityManager->persist($user);
             $entityManager->flush();
+            $this->addFlash('success', 'Inscription Réussi');
             // do anything else you need here, like send an email
 
             return $userAuthenticator->authenticateUser(

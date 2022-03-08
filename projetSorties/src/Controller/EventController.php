@@ -2,17 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Adress;
 use App\Entity\Event;
-use App\Entity\Location;
-use App\Entity\State;
 use App\Entity\User;
-use App\Entity\UserEvent;
 
 use App\Form\EventFormType;
-use App\Repository\EventRepository;
-use App\Repository\UserEventRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,8 +48,9 @@ class EventController extends AbstractController
             
             $em->persist($event);
             $em->flush();
+            $this->addFlash('success', 'Ajout d un event réussi');
         
-            return $this->redirectToRoute('app_home');            
+            return $this->redirectToRoute('app_home');  
         }
 
         return $this->render('event/index.html.twig', [
@@ -73,7 +67,7 @@ class EventController extends AbstractController
         $em->persist($user);
         $em->flush();
 
-        return $this->render('event/register.html.twig');
+        return $this->redirectToRoute('app_home');            
     }
 
     #[Route('/event_unsubscribe/{id}', name: 'app_event_unsubscribe')]
@@ -84,8 +78,7 @@ class EventController extends AbstractController
         $user->removeEvent($event);
         $em->persist($user);
         $em->flush();
-
-        return $this->render('event/register.html.twig');
+        return $this->redirectToRoute('app_home');            
     }
 
     #[Route('/event_detail/{id}', name: 'app_event_detail')]
@@ -96,15 +89,18 @@ class EventController extends AbstractController
 
     #[Route('/event_modify/{id}', name: 'app_event_modify')]
     public function modifyEvent(EntityManagerInterface $em,$id,Request $request){
-        $event = new Event();
+        /** @var User $user */
+        $user = $this->getUser();
+        $event = $this->entityManager->getRepository(Event::class)->find($id);
+        $event->setOrganizer($user);
         $form = $this->createForm(EventFormType::class, $event);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $em->persist($event);
-            $em->flush();
+            $this->entityManager->flush();
             return $this->redirectToRoute('app_home');            
         }
         $event =  $this->entityManager->getRepository(Event::class)->find($id);
         return $this->render('event/modify.html.twig', [ 'form' => $form->createView(),'event' => $event]);
     }
+
 }

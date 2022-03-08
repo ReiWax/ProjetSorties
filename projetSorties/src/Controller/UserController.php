@@ -66,6 +66,7 @@ class UserController extends AbstractController
             );
         
             $this->entityManager->flush();
+            $this->addFlash('success', 'Modification du profil effectué');
             return $this->redirectToRoute('app_user_profil');
         }
 
@@ -81,7 +82,6 @@ class UserController extends AbstractController
 
         /** @var User $user */
         $user = $this->getUser();
-
         return $this->render('user/profil.html.twig');
     }
 

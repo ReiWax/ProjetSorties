@@ -54,13 +54,20 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">Villes</a>
                     </li>
+                    
+                    {% if app.user %}
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Sites</a>
+                        <a class="nav-link active" href="{{path('app_location')}}">Ajouter un Lieux</a>
+                    </li>
+                    {% endif %}
+                    
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Accueil</a>
                     </li>
 
                     {% if app.user %}
                         <li class="nav-item">
-                            <a class="nav-link active" href="{{ path('app_user_profil') }}">Mon profil</a>
+                            <a class="nav-link active" href="{{path('app_user_profil')}}">Mon profil</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" href="{{path('app_logout')}}">Se déconnecter</a>
@@ -80,7 +87,14 @@
     </nav>
     </header>
     <body class="glow-all">
-
+    <body>
+    <div class="main-content">
+        {% for msg in app.session.flashBag.get('success') %}
+        <div class="alert alert-success">
+            {{ msg }}
+        </div>
+        {% endfor %}
+    </div>
     <div class="container">
         {% block body %}{% endblock %}
     </div>

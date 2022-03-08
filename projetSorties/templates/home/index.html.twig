@@ -1,9 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Accueil !{% endblock %}
 
 {% block body %}
-
 <div class="example-wrapper">
     
 {% form_theme form 'bootstrap_5_layout.html.twig' %}
@@ -12,6 +11,14 @@
     <div>
     <table class="table table-light table-striped">
         <thead class="table-secondary">
+<div class="example-wrapper">
+    
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
+{{ form(form) }}
+
+    <div>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
             <tr>
                 <th>Nom de la sortie</th>
                 <th>Date de la sortie</th>
@@ -41,7 +48,7 @@
             <td class="p-3"><a  class="badge bg-success text-decoration-none" href="{{path('app_user_detail',{'id': e.organizer.id})}}">{{e.organizer.name}}</a></td>
             <td class="p-3">
                 {% if app.user %}
-                    {% if e.state.id == 1 and e.dateLimitRegistrationAt > date('now') %}
+                    {% if e.state.id == 4 and e.dateLimitRegistrationAt < date('tomorrow') %}
                         {% if e.users.contains(app.user) and e.organizer.id != app.user.id %}
                             <a  class="badge bg-primary text-decoration-none" href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> -
                             <a  class="badge bg-danger text-decoration-none" href="{{path('app_event_unsubscribe', {'id':e.id})}}">Se désister</a>
@@ -53,6 +60,13 @@
                             <a class="badge bg-primary text-decoration-none"  href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> - 
                             <a  class="badge bg-danger text-decoration-none" href="{{path('app_event_register', {'id':e.id})}}">S'inscrire</a> - 
                             <a  class="badge bg-secondary text-decoration-none" href="{{path('app_event_modify', {'id':e.id})}}">Modifier</a>
+                            <a href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> - 
+                            <a href="{{path('app_event_unsubscribe', {'id':e.id})}}">Se désister</a> - 
+                            {% if e.dateTimeStartAt > date('now') %}<a href="{{path('app_event_modify', {'id':e.id})}}">Modifier</a>{% endif %}
+                        {% elseif e.organizer.id == app.user.id %}
+                            <a href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> - 
+                            <a href="{{path('app_event_register', {'id':e.id})}}">S'inscrire</a> - 
+                            {% if e.dateTimeStartAt > date('now') %}<a href="{{path('app_event_modify', {'id':e.id})}}">Modifier</a>{% endif %}
                         {% else %}
                             <a class="badge bg-primary text-decoration-none" href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> - 
                             <a  class="badge bg-primary text-decoration-none" href="{{path('app_event_register', {'id':e.id})}}">S'inscrire</a>

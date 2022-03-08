@@ -6,6 +6,7 @@ use App\Entity\Adress;
 use App\Entity\Event;
 use App\Entity\Location;
 use App\Entity\State;
+use App\Entity\City;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -42,7 +43,7 @@ class EventFormType extends AbstractType
                 ]
             ])
             ->add('duration', IntegerType::class,[
-                'label' => 'Durée',
+                'label' => 'Durée (en minutes)',
             ])
             ->add('nbMaxRegistration', IntegerType::class,[
                 'label' => 'Nombre de places',
@@ -54,7 +55,8 @@ class EventFormType extends AbstractType
                 'label' => 'Descriptions et Infos',
                 'attr' => [
                     'placeholder' => ''
-                ]
+                ],
+                'required' => false
             ])
             ->add('adress', EntityType::class, [
                 'label' => 'Choisir une adresse',
