@@ -33,35 +33,31 @@
 </style>
 
 
-<div class="example-wrapper ">
-    <div class="container text-right row" style="text-align : right!important">  
-        <div class="col glow">
-        <h4 >Detail de la sortie {{event.name }}</h4>
 <div class="example-wrapper">
-    <div class="container text-center">
-        <h1>Detail de la sortie {{event.name }}</h1>
+    <div class="container">
+        <h1 class="mb-5 text-center">Detail de la sortie {{event.name }}</h1>
         {% if event.state.id != 2 %}
         <div>
             <div>
-                <p >Date et heure de la sortie : {{event.dateTimeStartAt|date('Y-m-d H:m:s')}}</p>
-                <p >Date limite d'inscription : {{event.dateLimitRegistrationAt|date('Y-m-d H:m:s')}}</p>
-                <p >Nombre de places : {{event.nbMaxRegistration}}</p>
-                <p >Durée : {{event.duration}} {% if event.duration < 1 %}minute{% else %}minutes{% endif %}</p>
-                {% if event.description != null%}<p>Description et infos : {{event.description}}</p>{% endif %}
+                <p><b>Date et heure de la sortie :</b> {{event.dateTimeStartAt|date('Y-m-d H:m:s')}}</p>
+                <p><b>Date limite d'inscription :</b> {{event.dateLimitRegistrationAt|date('Y-m-d H:m:s')}}</p>
+                <p><b>Nombre de places :</b> {{event.nbMaxRegistration}}</p>
+                <p><b>Durée :</b> {{event.duration}} {% if event.duration < 1 %}minute{% else %}minutes{% endif %}</p>
+                {% if event.description != null%}<p><b>Description et infos :</b> {{event.description}}</p>{% endif %}
             </div>
             <div>
-                <p >Ville organisatrice : {{event.location.city.name}}</p>
-                <p >Lieu : {{event.location.name}}</p>
-                <p >Rue : {{event.location.street}}</p>
-                <p >Code postal : {{event.location.city.zipCode}}</p>
+                <p><b>Ville organisatrice :</b> {{event.location.city.name}}</p>
+                <p><b>Lieu :</b> {{event.location.name}}</p>
+                <p><b>Rue :</b> {{event.location.street}}</p>
+                <p><b>Code postal :</b> {{event.location.city.zipCode}}</p>
                 {% if event.location.lat != null and event.location.long != null %}
-                <p >Latitude : {{event.location.lat}}</p>
-                <p >Longitude : {{event.location.long}}</p>
+                <p><b>Latitude :</b> {{event.location.lat}}</p>
+                <p><b>Longitude :</b> {{event.location.long}}</p>
                 {% endif %}
             </div>
         </div>
        
-        <div class="col text-center">
+        <div class="col text-center mt-5">
             <table class="table table-light table-striped table-bordered border-dark">
                 <caption align="top">Liste des participants</caption>
 
