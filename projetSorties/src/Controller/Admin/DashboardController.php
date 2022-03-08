@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Adress;
 use App\Entity\City;
+use App\Entity\Event;
 use App\Entity\Location;
 use App\Entity\State;
 use App\Entity\User;
@@ -55,7 +56,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('State', 'fa fa-info-circle', State::class);
         yield MenuItem::linkToCrud('Location', 'fa fa-location-arrow', Location::class);
         yield MenuItem::linkToCrud('Adress', 'fa fa-address-card', Adress::class);
-        //yield MenuItem::linkToCrud('User', 'fa fa-user', User::class);
+        yield MenuItem::linkToCrud('User', 'fa fa-user', User::class);
+        yield MenuItem::linkToCrud('Event', 'fas fa-calendar-alt', Event::class);
 
     }
 }

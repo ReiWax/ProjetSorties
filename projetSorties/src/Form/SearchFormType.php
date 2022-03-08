@@ -7,6 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use App\Data\SearchData;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -18,7 +19,7 @@ class SearchFormType extends AbstractType
         $builder
             ->add('name', TextType::class,  [
                 'required'=>false,
-                'label' => 'Le nom de la sortie contient : '
+                'label' => 'Le nom de la sortie contient :'
                 ])
             ->add('dateTimeStartAt', DateTimeType::class, [
                 'label' => 'Date de la sortie',
@@ -52,8 +53,7 @@ class SearchFormType extends AbstractType
                 'required'=>false,
                 'label' => 'Sorties passées'
             ])
-            ->add('submit', SubmitType::class)
-            ;
+            ->add('rechercher', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

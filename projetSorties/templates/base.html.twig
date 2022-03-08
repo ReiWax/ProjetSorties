@@ -15,6 +15,35 @@
         {% endblock %}
     </head>
     <header>
+    <style>
+    .glow-all{
+    -webkit-animation: glow-all 0.4s ease-in-out infinite alternate;
+  -moz-animation: glow-all 0.4s ease-in-out infinite alternate;
+  animation: glow-all 0.4s ease-in-out infinite alternate;
+}
+
+
+@-webkit-keyframes glow-all {
+  0% {
+   background-color : #FAF6F1
+  }
+  20% {
+    background-color : #F9FAF1
+  }
+  40% {
+    background-color : #F2FAF1
+  }
+  60% {
+    background-color : #F1FAFA
+  }
+  80% {
+    background-color : #F2F1FA
+  }
+  100% {
+    background-color : #FAF1FA
+  }
+}
+    </style>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{path('app_home')}}">
@@ -57,6 +86,7 @@
         </div>
     </nav>
     </header>
+    <body class="glow-all">
     <body>
     <div class="main-content">
         {% for msg in app.session.flashBag.get('success') %}

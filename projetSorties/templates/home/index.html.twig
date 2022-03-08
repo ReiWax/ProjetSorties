@@ -6,6 +6,14 @@
 <div class="example-wrapper">
     
 {% form_theme form 'bootstrap_5_layout.html.twig' %}
+    {{ form(form) }}
+    
+    <div>
+    <table class="table table-light table-striped">
+        <thead class="table-secondary">
+<div class="example-wrapper">
+    
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
 {{ form(form) }}
 
     <div>
@@ -25,26 +33,33 @@
     <tbody>
     {% for e in events %}
         <tr>
-            <td>{{ e.name }}</td>
-            <td>{{ e.dateTimeStartAt|date('d-m-Y')}}</td>
-            <td>{{ e.dateLimitRegistrationAt|date('d-m-Y')}}</td>
-            <td>{{ e.users|length }} / {{ e.nbmaxregistration }}</td>
-            <td>{{ e.state.libelle }}</td>
-            <td>
+            <td class="p-3">{{ e.name }}</td>
+            <td class="p-3">{{ e.dateTimeStartAt|date('d-m-Y')}}</td>
+            <td class="p-3">{{ e.dateLimitRegistrationAt|date('d-m-Y')}}</td>
+            <td class="p-3">{{ e.users|length }} / {{ e.nbmaxregistration }}</td>
+            <td class="p-3">{{ e.state.libelle }}</td>
+            <td class="p-3">
                 {% if e.users.contains(app.user) %}
                 Oui
                 {% else %}
                 Non
                 {% endif %}
             </td>
-            <td><a href="{{path('app_user_detail',{'id': e.organizer.id})}}">{{e.organizer.name}}</a></td>
-            <td>
+            <td class="p-3"><a  class="badge bg-success text-decoration-none" href="{{path('app_user_detail',{'id': e.organizer.id})}}">{{e.organizer.name}}</a></td>
+            <td class="p-3">
                 {% if app.user %}
                     {% if e.state.id == 4 and e.dateLimitRegistrationAt < date('tomorrow') %}
                         {% if e.users.contains(app.user) and e.organizer.id != app.user.id %}
-                            <a href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> -
-                            <a href="{{path('app_event_unsubscribe', {'id':e.id})}}">Se désister</a>
+                            <a  class="badge bg-primary text-decoration-none" href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> -
+                            <a  class="badge bg-danger text-decoration-none" href="{{path('app_event_unsubscribe', {'id':e.id})}}">Se désister</a>
                         {% elseif e.organizer.id == app.user.id and e.users.contains(app.user) %}
+                            <a class="badge bg-primary text-decoration-none" href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> - 
+                            <a  class="badge bg-danger text-decoration-none" href="{{path('app_event_unsubscribe', {'id':e.id})}}">Se désister</a> - 
+                            <a  class="badge bg-secondary text-decoration-none" href="{{path('app_event_modify', {'id':e.id})}}">Modifier</a>
+                        {% elseif e.organizer.id == app.user.id %}
+                            <a class="badge bg-primary text-decoration-none"  href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> - 
+                            <a  class="badge bg-danger text-decoration-none" href="{{path('app_event_register', {'id':e.id})}}">S'inscrire</a> - 
+                            <a  class="badge bg-secondary text-decoration-none" href="{{path('app_event_modify', {'id':e.id})}}">Modifier</a>
                             <a href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> - 
                             <a href="{{path('app_event_unsubscribe', {'id':e.id})}}">Se désister</a> - 
                             {% if e.dateTimeStartAt > date('now') %}<a href="{{path('app_event_modify', {'id':e.id})}}">Modifier</a>{% endif %}
@@ -53,11 +68,11 @@
                             <a href="{{path('app_event_register', {'id':e.id})}}">S'inscrire</a> - 
                             {% if e.dateTimeStartAt > date('now') %}<a href="{{path('app_event_modify', {'id':e.id})}}">Modifier</a>{% endif %}
                         {% else %}
-                            <a href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> - 
-                            <a href="{{path('app_event_register', {'id':e.id})}}">S'inscrire</a>
+                            <a class="badge bg-primary text-decoration-none" href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> - 
+                            <a  class="badge bg-primary text-decoration-none" href="{{path('app_event_register', {'id':e.id})}}">S'inscrire</a>
                         {% endif %}
                     {% else %}
-                        <a href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a>
+                        <a class="badge bg-primary text-decoration-none" href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a>
                     {% endif %}
                 {% endif %}
 
@@ -68,6 +83,6 @@
 </table>
 </div>
 
-<a href="{{path('app_event')}}">Créer une sortie</a>
+<a  class="btn btn-primary mb-5" href="{{path('app_event')}}">Créer une sortie</a>
 </div>
 {% endblock %}
