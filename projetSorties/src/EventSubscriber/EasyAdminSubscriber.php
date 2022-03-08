@@ -41,6 +41,12 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             return;
         }
         $this->setPassword($entity);
+        if($entity->getAdmin() == true) {
+            $entity->setRoles(['ROLE_ADMIN']);
+        } else {
+            $entity->setRoles(['ROLE_USER']);
+        }
+        
     }
 
     public function addUser(BeforeEntityPersistedEvent $event)
@@ -51,6 +57,11 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             return;
         }
         $this->setPassword($entity);
+        if($entity->getAdmin() == true) {
+            $entity->setRoles(['ROLE_ADMIN']);
+        } else {
+            $entity->setRoles(['ROLE_USER']);
+        }
     }
 
     /**

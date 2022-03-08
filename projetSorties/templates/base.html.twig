@@ -68,6 +68,11 @@
                         <li class="nav-item">
                             <a class="nav-link active" href="{{path('app_logout')}}">Se déconnecter</a>
                         </li>
+                        {% if app.user.admin  %}
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{{path('admin')}}">Admin</a>
+                            </li>
+                        {% endif %}
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link active" href="{{path('app_login')}}">Se connecter</a>
@@ -76,13 +81,14 @@
                             <a class="nav-link active" href="{{path('app_register')}}">Créer un compte</a>
                         </li>
                     {% endif %}
+                    
 
                 </ul>
             </div>
         </div>
     </nav>
     </header>
-    <body class="glow-all">
+    <body class="">
     <body>
     <div class="main-content">
         {% for msg in app.session.flashBag.get('success') %}
