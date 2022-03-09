@@ -38,5 +38,7 @@ class SearchData
      * @var null|boolean
      */
     public $eventFinished;
+
+    public $adress;
     
 }

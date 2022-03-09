@@ -25,6 +25,7 @@
         </thead>
     <tbody>
     {% for e in events %}
+    
         <tr>
             <td class="p-3">{{ e.name }}</td>
             <td class="p-3">{{ e.dateTimeStartAt|date('d-m-Y')}}</td>
@@ -42,7 +43,7 @@
             <td class="p-3">
                 {% if app.user %}
                     {# state.id = ouvert #}
-                    {% if e.state.id == 4 and e.dateLimitRegistrationAt > date('tomorrow') %}
+                    {% if e.state.id == 2 and e.dateLimitRegistrationAt|date('Y-m-d') >= 'now'|date('Y-m-d') %}
                         {% if e.users.contains(app.user) and e.organizer.id != app.user.id %}
                             <a  class="badge bg-primary text-decoration-none" href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> -
                             <a  class="badge bg-danger text-decoration-none" href="{{path('app_event_unsubscribe', {'id':e.id})}}">Se désister</a>
@@ -56,7 +57,7 @@
                             <a  class="badge bg-secondary text-decoration-none" href="{{path('app_event_modify', {'id':e.id})}}">Modifier</a>
                         {% else %}
                             <a class="badge bg-primary text-decoration-none" href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> - 
-                            <a  class="badge bg-primary text-decoration-none" href="{{path('app_event_register', {'id':e.id})}}">S'inscrire</a>
+                            <a  class="badge bg-danger text-decoration-none" href="{{path('app_event_register', {'id':e.id})}}">S'inscrire</a>
                         {% endif %}
                     {% else %}
                         <a class="badge bg-primary text-decoration-none" href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a>

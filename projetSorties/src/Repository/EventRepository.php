@@ -93,7 +93,9 @@ class EventRepository extends ServiceEntityRepository
             empty($search->dateTimeStartAt) &&
             empty($search->dateLimitRegistrationAt) &&
             empty($search->eventIsOrganizer) &&
-            empty($search->eventFinished)){
+            empty($search->eventFinished) &&
+            empty($search->adress)){
+
         $qb = $qb
             ->where("DATE_ADD(e.dateTimeStartAt,1,'MONTH') > :now")
             ->setParameter('now',new \DateTime('now'))
@@ -135,16 +137,54 @@ class EventRepository extends ServiceEntityRepository
             ->andWhere("DATE_ADD(e.dateTimeStartAt,1,'MONTH') > :now")
             ->setParameter('now',new \DateTime('now'))
             ->andWhere('user.id = :user')
-            ->setParameter('user',$user->getId());
+            ->
+            setParameter('user',$user->getId());
         }
 
-        if(!empty($search->eventIsNotRegistered)){
+        if(!empty($search->adress)){
             $qb = $qb
-            ->join('e.users','user')
-            ->andWhere(':user in (user)')
-            ->setParameter('user',$user);
+            ->andWhere('e.adress= :adress')
+            ->setParameter('adress',$search->adress);
         }
-        
+
+        //On récupère tous les events, puis on fait un soustraction pour voir les évènements auxquels je ne suis pas inscrit
+        if(!empty($search->eventIsNotRegistered)){
+            // //Event inscrit
+            // $qb_event_registered = $qb
+            // ->join('e.users','user')
+            // ->andWhere('e.state not in (2)')
+            // ->addSelect('e')
+            // ->andWhere("DATE_ADD(e.dateTimeStartAt,1,'MONTH') > :now")
+            // ->setParameter('now',new \DateTime('now'))
+            // ->andWhere('user.id = :user')
+            // ->andWhere();
+
+            // $query = $qb_event_registered->getQuery();
+            // $tabRegisteredEvent = $query->getResult();
+                
+            // $qb_all_event = $this
+            // ->createQueryBuilder('e')
+            // ->select('e')
+            // ->andWhere('e.state not in (2)');
+            
+            // // $query = $qb_all_event->getQuery();
+            // // $tabAllEvents = $query->getResult();
+            // // $tabNotRegisteredEvent = array();
+            // // foreach($tabAllEvents as $event){
+            // //     if(!empty($tabRegisteredEvent)){
+            // //         foreach($tabRegisteredEvent as $registered){
+            // //             if($registered->getId() != $event->getId()){
+            // //                 array_push($tabNotRegisteredEvent,$event);
+            // //             }
+            // //         }
+            // //     }else{
+            // //         return $tabAllEvents;
+            // //     }
+                
+            // // }
+            // // return $tabNotRegisteredEvent;
+        }
+
         $query = $qb->getQuery();
         return $query->getResult();
     }

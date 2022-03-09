@@ -6,6 +6,8 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use App\Data\SearchData;
+use App\Entity\Adress;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,6 +18,13 @@ class SearchFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('adress', EntityType::class, [
+                'label' => 'Choisir une adresse',
+                'required' => true,
+                'class' => Adress::class,
+                'multiple' => false,
+                'expanded' => false,
+            ])
             ->add('name', TextType::class,  [
                 'required'=>false,
                 'label' => 'Le nom de la sortie contient :'

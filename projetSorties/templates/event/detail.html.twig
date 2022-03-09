@@ -36,7 +36,12 @@
 <div class="example-wrapper">
     <div class="container">
         <h1 class="mb-5 text-center">Detail de la sortie {{event.name }}</h1>
-        {% if event.state.id != 2 %}
+        {% if event.state.id == 2 %}
+        <div>
+            <p><b>Sortie annulée</b>    </p>
+            <p><b>Motif :</b> {{ event.description}}</p>
+        </div>
+        {% else %}
         <div>
             <div>
                 <p><b>Date et heure de la sortie :</b> {{event.dateTimeStartAt|date('Y-m-d H:m:s')}}</p>
