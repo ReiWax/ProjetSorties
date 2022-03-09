@@ -41,7 +41,8 @@
             <td class="p-3"><a  class="badge bg-success text-decoration-none" href="{{path('app_user_detail',{'id': e.organizer.id})}}">{{e.organizer.name}}</a></td>
             <td class="p-3">
                 {% if app.user %}
-                    {% if e.state.id == 1 and e.dateLimitRegistrationAt > date('now') %}
+                    {# state.id = ouvert #}
+                    {% if e.state.id == 4 and e.dateLimitRegistrationAt > date('tomorrow') %}
                         {% if e.users.contains(app.user) and e.organizer.id != app.user.id %}
                             <a  class="badge bg-primary text-decoration-none" href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> -
                             <a  class="badge bg-danger text-decoration-none" href="{{path('app_event_unsubscribe', {'id':e.id})}}">Se désister</a>

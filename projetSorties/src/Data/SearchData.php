@@ -17,7 +17,7 @@ class SearchData
       /**
      * @var null|datetime
      */
-    public $dateLimitRegistrationAt;
+    public $dateFinishAt;
 
     /**
      * @var null|boolean

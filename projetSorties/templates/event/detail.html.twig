@@ -57,6 +57,11 @@
             </div>
         </div>
        
+        <div>
+        {% if event.users is empty %}
+        <p>Pas encore de participant.</p>
+        {% else %}
+            <table>
         <div class="col text-center mt-5">
             <table class="table table-light table-striped table-bordered border-dark">
                 <caption align="top">Liste des participants</caption>

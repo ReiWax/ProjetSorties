@@ -29,9 +29,10 @@ class EventController extends AbstractController
         $user = $this->getUser(); 
 
         $event = new Event();
-        //$adress = $this->entityManager->getRepository(Adress::class)->find(1);
-        //$location = $this->entityManager->getRepository(Location::class)->find(1);
-        //$state = $this->entityManager->getRepository(State::class)->find(1);
+        $adress = $this->entityManager->getRepository(Adress::class)->find(1);
+        $location = $this->entityManager->getRepository(Location::class)->find(1);
+        $state = $this->entityManager->getRepository(State::class)->find(4);
+
 
         $form = $this->createForm(EventFormType::class, $event);
 
@@ -85,6 +86,20 @@ class EventController extends AbstractController
     public function detailEvent(EntityManagerInterface $em,$id){
         $event =  $this->entityManager->getRepository(Event::class)->find($id);
         return $this->render('event/detail.html.twig', ['event' => $event]);
+    }
+
+    #[Route('/event_cancel/{id}', name: 'app_event_cancel')]
+    public function cancelEvent(EntityManagerInterface $em,$id,Request $request){
+        $event = new Event();
+        $form = $this->createForm(EventFormType::class, $event);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $em->persist($event);
+            $em->flush();
+            return $this->redirectToRoute('app_home');            
+        }
+        $event =  $this->entityManager->getRepository(Event::class)->find($id);
+        return $this->render('event/modify.html.twig', [ 'form' => $form->createView(),'event' => $event]);
     }
 
     #[Route('/event_modify/{id}', name: 'app_event_modify')]

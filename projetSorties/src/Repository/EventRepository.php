@@ -81,41 +81,68 @@ class EventRepository extends ServiceEntityRepository
     public function findSearch(SearchData $search,$user)
     {
         $qb = $this
-            ->createQueryBuilder('e')
-            ->select('u', 'e')
-            ->join('e.organizer', 'u')
-            ->join('e.state', 's')
-            ->where("DATE_ADD(e.dateTimeStartAt,1,'MONTH') > :now")
-            ->setParameter('now',new \DateTime('now'));
+        ->createQueryBuilder('e')
+        ->select('u', 'e')
+        ->join('e.organizer', 'u')
+        ->join('e.state', 's');
 
+        if(empty($search->name) &&
+            empty($search->dateTimeStartAt) &&
+            empty($search->eventIsNotRegistered) &&
+            empty($search->eventIsRegistered) &&
+            empty($search->dateTimeStartAt) &&
+            empty($search->dateLimitRegistrationAt) &&
+            empty($search->eventIsOrganizer) &&
+            empty($search->eventFinished)){
+        $qb = $qb
+            ->where("DATE_ADD(e.dateTimeStartAt,1,'MONTH') > :now")
+            ->setParameter('now',new \DateTime('now'))
+           ;
+        }
         if (!empty($search->name)) {
             $qb = $qb
+                ->andWhere("DATE_ADD(e.dateTimeStartAt,1,'MONTH') > :now")
+                ->setParameter('now',new \DateTime('now'))
                 ->andWhere('e.name LIKE :name')
                 ->setParameter('name', "%{$search->name}%");
         }
 
-        if (!empty($search->dateTimeStartAt)) {
+        if (!empty($search->dateTimeStartAt) && !empty($search->dateFinishAt)) {
             $qb = $qb
                 ->andWhere('e.dateTimeStartAt >= :dateTimeStartAt')
-                ->setParameter('dateTimeStartAt', $search->dateTimeStartAt->format('Y-m-d h:i:s'));
+                ->andWhere('e.dateTimeStartAt <= :dateFinishAt')
+                ->setParameter('dateTimeStartAt', $search->dateTimeStartAt->format('Y-m-d h:i:s'))
+                ->setParameter('dateFinishAt', $search->dateFinishAt->format('Y-m-d h:i:s'));
         }
         
-        if (!empty($search->dateLimitRegistrationAt)) {
-            $qb = $qb
-                ->andWhere('e.dateLimitRegistrationAt <= :dateLimitRegistrationAt')
-                ->setParameter('dateLimitRegistrationAt', $search->dateLimitRegistrationAt->format('Y-m-d h:i:s'));
-        }
 
         if(!empty($search->eventIsOrganizer)){
             $qb = $qb
+            ->andWhere("DATE_ADD(e.dateTimeStartAt,1,'MONTH') > :now")
+            ->setParameter('now',new \DateTime('now'))
             ->andWhere('u.name = :name')
             ->setParameter('name', $user->getName());
         }
 
         if(!empty($search->eventFinished)){
             $qb = $qb
-            ->andWhere('e.dateTimeStartAt > :now')
-            ->setParameter('now',new \DateTime('now'));
+            ->andWhere('e.dateTimeStartAt < CURRENT_DATE()');
+        }
+
+        if(!empty($search->eventIsRegistered)){
+            $qb = $qb
+            ->join('e.users','user')
+            ->andWhere("DATE_ADD(e.dateTimeStartAt,1,'MONTH') > :now")
+            ->setParameter('now',new \DateTime('now'))
+            ->andWhere('user.id = :user')
+            ->setParameter('user',$user->getId());
+        }
+
+        if(!empty($search->eventIsNotRegistered)){
+            $qb = $qb
+            ->join('e.users','user')
+            ->andWhere(':user in (user)')
+            ->setParameter('user',$user);
         }
         
         $query = $qb->getQuery();
