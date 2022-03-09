@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Adress;
 use App\Entity\CsvFile;
 use App\Entity\User;
 use App\Form\CsvFileType;
@@ -29,6 +30,9 @@ class UploadCsvFileController extends AbstractController
 
 
         if($form->isSubmitted() && $form->isValid()) {
+
+
+           
 
             /** @var UploadedFile $uploadeFile */
             $uploadeFile = $form->get('csvFilename')->getData();
@@ -58,6 +62,9 @@ class UploadCsvFileController extends AbstractController
                 $result = $reader->getRecords();
                 
                 foreach ($result as $i => $row ) {
+
+                    
+                    $address = $em->getRepository(Adress::class)->find($row[9]);
                    
                     $user = new User();
                     $user
@@ -72,8 +79,9 @@ class UploadCsvFileController extends AbstractController
                     ->setTel((int)$row[5])
                     ->setAdmin((int)$row[6])
                     ->setActive((int)$row[7])
-                    //->setAdress($row[$i])
                     ->setIllustration($row[8])
+                    ->setAdress($address)
+
                 ;
                      $em->persist($user);
                 }
