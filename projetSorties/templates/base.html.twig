@@ -54,10 +54,10 @@
                     
                     {% if app.user %}
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{path('app_city')}}">Ajouter une villes</a>
+                        <a class="nav-link active" aria-current="page" href="{{path('app_city')}}">Ajouter une ville</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{path('app_location')}}">Ajouter un lieux</a>
+                        <a class="nav-link active" href="{{path('app_location')}}">Ajouter un lieu</a>
                     </li>
                     {% endif %}
 
@@ -71,6 +71,9 @@
                         {% if app.user.admin  %}
                             <li class="nav-item">
                                 <a class="nav-link active" href="{{path('admin')}}">Espace Admin</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{{path('app_upload_csv_file')}}">Importer fichier CSV</a>
                             </li>
                         {% endif %}
                     {% else %}
