@@ -19,7 +19,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UploadCsvFileController extends AbstractController
 {
-    #[Route('/upload/csv/file', name: 'app_upload_csv_file')]
+    #[Route('/admin/upload/csv/file', name: 'app_upload_csv_file')]
     public function index(Request $request, SluggerInterface $slugger, UserPasswordHasherInterface $userPasswordHash, EntityManagerInterface $em): Response
     {
 
