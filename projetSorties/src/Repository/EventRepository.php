@@ -141,7 +141,7 @@ class EventRepository extends ServiceEntityRepository
         if(!empty($search->eventIsNotRegistered)){
             $qb = $qb
             ->join('e.users','user')
-            ->andWhere(':user not in (user)')
+            ->andWhere(':user in (user)')
             ->setParameter('user',$user);
         }
         

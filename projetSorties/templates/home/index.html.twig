@@ -47,7 +47,7 @@
             <td><a href="{{path('app_user_detail',{'id': e.organizer.id})}}">{{e.organizer.name}}</a></td>
             <td>
                 {% if app.user %}
-
+                    {# state.id = ouvert #}
                     {% if e.state.id == 4 and e.dateLimitRegistrationAt > date('tomorrow') %}
                         {% if e.users.contains(app.user) and e.organizer.id != app.user.id %}
                             <a href="{{path('app_event_detail', {'id':e.id})}}">Afficher</a> -

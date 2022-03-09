@@ -38,7 +38,7 @@ class EventController extends AbstractController
         $event = new Event();
         $adress = $this->entityManager->getRepository(Adress::class)->find(1);
         $location = $this->entityManager->getRepository(Location::class)->find(1);
-        $state = $this->entityManager->getRepository(State::class)->find(1);
+        $state = $this->entityManager->getRepository(State::class)->find(4);
 
         $form = $this->createForm(EventFormType::class, $event);
 
@@ -72,7 +72,7 @@ class EventController extends AbstractController
         $em->persist($user);
         $em->flush();
 
-        return $this->render('event/register.html.twig');
+        return $this->redirectToRoute('app_home');            
     }
 
     #[Route('/event_unsubscribe/{id}', name: 'app_event_unsubscribe')]
@@ -84,7 +84,7 @@ class EventController extends AbstractController
         $em->persist($user);
         $em->flush();
 
-        return $this->render('event/register.html.twig');
+        return $this->redirectToRoute('app_home');            
     }
 
     #[Route('/event_detail/{id}', name: 'app_event_detail')]
@@ -93,9 +93,23 @@ class EventController extends AbstractController
         return $this->render('event/detail.html.twig', ['event' => $event]);
     }
 
+    #[Route('/event_cancel/{id}', name: 'app_event_cancel')]
+    public function cancelEvent(EntityManagerInterface $em,$id,Request $request){
+        $event = new Event();
+        $form = $this->createForm(EventFormType::class, $event);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $em->persist($event);
+            $em->flush();
+            return $this->redirectToRoute('app_home');            
+        }
+        $event =  $this->entityManager->getRepository(Event::class)->find($id);
+        return $this->render('event/modify.html.twig', [ 'form' => $form->createView(),'event' => $event]);
+    }
+
     #[Route('/event_modify/{id}', name: 'app_event_modify')]
     public function modifyEvent(EntityManagerInterface $em,$id,Request $request){
-        $event = new Event();
+        $event =  $this->entityManager->getRepository(Event::class)->find($id);
         $form = $this->createForm(EventFormType::class, $event);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
