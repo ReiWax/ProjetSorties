@@ -4,32 +4,55 @@
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    div#container{width:800px;padding:5px;}  
-    div#left{float:left;width:100%;margin-left:-25%}  
-    div#right{margin-left:25%;width:100%}
+  .glow {
+  font-size: 15px;
+  color: black;
+  font-weight : bold;
+  -webkit-animation: glow 0.2s ease-in-out infinite alternate;
+  -moz-animation: glow 0.2s ease-in-out infinite alternate;
+  animation: glow 0.2s ease-in-out infinite alternate;
+  
+}
+.glow-text{
+     -webkit-animation: glow-text 0.2s ease-in-out infinite alternate;
+  -moz-animation: glow-text 0.2s ease-in-out infinite alternate;
+  animation: glow-text 0.2s ease-in-out infinite alternate;
+}
+
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #55FC3E, 0 0 40px #3EF9FC, 0 0 50px #55FC3E, 0 0 60px #3EF9FC, 0 0 70px #55FC3E;
+  }
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px #C03EFC, 0 0 40px #FCC53E, 0 0 50px #C03EFC, 0 0 60px #FCC53E, 0 0 70px #C03EFC, 0 0 80px #FCC53E;
+  }
+}
+
+
 </style>
 
+
 <div class="example-wrapper">
-    <div class="container text-center">
-        <h1>Detail de la sortie {{event.name }}</h1>
+    <div class="container">
+        <h1 class="mb-5 text-center">Detail de la sortie {{event.name }}</h1>
+        {% if event.state.id != 2 %}
         <div>
             <div>
-                <p>Date et heure de la sortie : {{event.dateTimeStartAt|date('Y-m-d H:m:s')}}</p>
-                <p>Date limite d'inscription : {{event.dateLimitRegistrationAt|date('Y-m-d H:m:s')}}</p>
-                <p>Nombre de places : {{event.nbMaxRegistration}}</p>
-                <p>Durée : {{event.duration}} {% if event.duration < 1 %}minute{% else %}minutes{% endif %}</p>
-                {% if event.description != null%}<p>Description et infos : {{event.description}}</p>{% endif %}
+                <p><b>Date et heure de la sortie :</b> {{event.dateTimeStartAt|date('Y-m-d H:m:s')}}</p>
+                <p><b>Date limite d'inscription :</b> {{event.dateLimitRegistrationAt|date('Y-m-d H:m:s')}}</p>
+                <p><b>Nombre de places :</b> {{event.nbMaxRegistration}}</p>
+                <p><b>Durée :</b> {{event.duration}} {% if event.duration < 1 %}minute{% else %}minutes{% endif %}</p>
+                {% if event.description != null%}<p><b>Description et infos :</b> {{event.description}}</p>{% endif %}
             </div>
             <div>
-                <p>Ville organisatrice : {{event.location.city.name}}</p>
-                <p>Lieu : {{event.location.name}}</p>
-                <p>Rue : {{event.location.street}}</p>
-                <p>Code postal : {{event.location.city.zipCode}}</p>
-                {% if event.location.lat != null and event.location.long != null%}
-                <p>Latitude : {{event.location.lat}}</p>
-                <p>Longitude : {{event.location.long}}</p>
+                <p><b>Ville organisatrice :</b> {{event.location.city.name}}</p>
+                <p><b>Lieu :</b> {{event.location.name}}</p>
+                <p><b>Rue :</b> {{event.location.street}}</p>
+                <p><b>Code postal :</b> {{event.location.city.zipCode}}</p>
+                {% if event.location.lat != null and event.location.long != null %}
+                <p><b>Latitude :</b> {{event.location.lat}}</p>
+                <p><b>Longitude :</b> {{event.location.long}}</p>
                 {% endif %}
             </div>
         </div>
@@ -39,9 +62,11 @@
         <p>Pas encore de participant.</p>
         {% else %}
             <table>
+        <div class="col text-center mt-5">
+            <table class="table table-light table-striped table-bordered border-dark">
                 <caption align="top">Liste des participants</caption>
 
-                <thead>
+                <thead class="table-secondary  border-dark">
                     <tr>
                         <th>Pseudo</th>
                         <th>Nom</th>

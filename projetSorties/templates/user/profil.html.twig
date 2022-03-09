@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Profil{% endblock %}
+
+{% block body %}
+<div class="container pt-5">
+    <div class="row mb-5">
+
+        <div class="col-4">
+        {% if app.user.illustration %}
+            <img src="{{ asset('/uploads/') }}{{app.user.illustration}}" class="img-thumbnail img-fluid rounded"> 
+        {% endif %}
+        </div>
+        <div class="col-8">
+            <h1 class="text-center">Votre profile {{ app.user.name }} {{ app.user.lastname }}</h1>
+            <div class="row mt-5">
+                <div class="card card-body col-4 mr-3">
+                    <p><b>Prénom :</b> {{ app.user.name }}</p>
+                    <p><b>Nom :</b> {{ app.user.lastname }}</p>
+                    <p><b>Addresse email :</b> {{ app.user.email }}</p>
+                    <p><b>Télépone :</b> {{ app.user.tel }}</p>
+                    <p><b>Pseudo Utilisateur :</b> {{ app.user.pseudo }}</p>
+                </div>
+                <a class="btn btn-primary mt-5" href="{{ path('app_user_edit') }}" role="button">Modifier mon profile</a>
+            </div>
+            
+        </div>
+    </div>
+        
+</div>
+{% endblock %}

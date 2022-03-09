@@ -32,10 +32,12 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            $user->setRoles(['ROLE_USER']);
             $user->setAdmin(false);
             $user->setActive(true);
             $entityManager->persist($user);
             $entityManager->flush();
+            $this->addFlash('success', 'Inscription Réussi');
             // do anything else you need here, like send an email
 
             return $userAuthenticator->authenticateUser(

@@ -2,17 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Adress;
 use App\Entity\Event;
-use App\Entity\Location;
-use App\Entity\State;
 use App\Entity\User;
-use App\Entity\UserEvent;
 
 use App\Form\EventFormType;
-use App\Repository\EventRepository;
-use App\Repository\UserEventRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,22 +33,25 @@ class EventController extends AbstractController
         $location = $this->entityManager->getRepository(Location::class)->find(1);
         $state = $this->entityManager->getRepository(State::class)->find(4);
 
+
         $form = $this->createForm(EventFormType::class, $event);
 
-        $event->getUsers($user);
-        $event->setOrganizer($user);
-        $event->setAdress($adress);
-        $event->setLocation($location);
-        $event->setState($state);
+        
+        //$event->setAdress($adress);
+        //$event->setLocation($location);
+        //$event->setState($state);
         
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            $event->getUsers($user);
+            $event->setOrganizer($user);
+            
             $em->persist($event);
-
             $em->flush();
+            $this->addFlash('success', 'Ajout d un event réussi');
         
-            return $this->redirectToRoute('app_home');            
+            return $this->redirectToRoute('app_home');  
         }
 
         return $this->render('event/index.html.twig', [
@@ -83,7 +79,6 @@ class EventController extends AbstractController
         $user->removeEvent($event);
         $em->persist($user);
         $em->flush();
-
         return $this->redirectToRoute('app_home');            
     }
 
@@ -109,15 +104,18 @@ class EventController extends AbstractController
 
     #[Route('/event_modify/{id}', name: 'app_event_modify')]
     public function modifyEvent(EntityManagerInterface $em,$id,Request $request){
-        $event =  $this->entityManager->getRepository(Event::class)->find($id);
+        /** @var User $user */
+        $user = $this->getUser();
+        $event = $this->entityManager->getRepository(Event::class)->find($id);
+        $event->setOrganizer($user);
         $form = $this->createForm(EventFormType::class, $event);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $em->persist($event);
-            $em->flush();
+            $this->entityManager->flush();
             return $this->redirectToRoute('app_home');            
         }
         $event =  $this->entityManager->getRepository(Event::class)->find($id);
         return $this->render('event/modify.html.twig', [ 'form' => $form->createView(),'event' => $event]);
     }
+
 }

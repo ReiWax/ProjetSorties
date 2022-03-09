@@ -24,7 +24,7 @@ class UserController extends AbstractController
         $this->entityManager = $em;
     }
 
-    #[Route('/user/update', name: 'app_user')]
+    #[Route('/user/edit', name: 'app_user_edit')]
     public function index(Request $request, UserPasswordHasherInterface $userPasswordHash, SluggerInterface $slugger): Response
     {
 
@@ -40,6 +40,7 @@ class UserController extends AbstractController
             /** @var UploadedFile $uploadeFile */
             $uploadeFile = $form->get('imageFile')->getData();
 
+
             if($uploadeFile) {
                 $originalFilename = pathinfo($uploadeFile->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
@@ -53,10 +54,10 @@ class UserController extends AbstractController
                 } catch (FileException $e) {
                     //A remplire si besoin.
                 }
+
+                $user->setIllustration($newFilename);
             }
-
-            $user->setIllustration($newFilename);
-
+           
             $user->setPassword(
                 $userPasswordHash->hashPassword(
                     $user,
@@ -65,11 +66,23 @@ class UserController extends AbstractController
             );
         
             $this->entityManager->flush();
+            $this->addFlash('success', 'Modification du profil effectué');
+            return $this->redirectToRoute('app_user_profil');
         }
 
         return $this->render('user/index.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+
+    #[Route('/user/profil', name: 'app_user_profil')]
+    public function profil(Request $request, UserPasswordHasherInterface $userPasswordHash, SluggerInterface $slugger): Response
+    {
+
+        /** @var User $user */
+        $user = $this->getUser();
+        return $this->render('user/profil.html.twig');
     }
 
     #[Route('/user_detail/{id}', name: 'app_user_detail')]

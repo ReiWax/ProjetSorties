@@ -3,34 +3,13 @@
 {% block title %}Création d'une Sortie !{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    div#container{width:800px;padding:5px;}  
-    div#left{float:left;width:100%;margin-left:-25%}  
-    div#right{margin-left:25%;width:100%}
-</style>
 
-<div class="example-wrapper">
+<div class="example-wrapper pt-5 pb-5">
     <div class="container text-center">
-        <h1>Créer une sortie ✅</h1>
+        <h1>Créer une sortie</h1>
     </div>
     {% form_theme form 'bootstrap_5_layout.html.twig' %}
-    {{ form_start(form) }}
-    <div id="container">
-        {{form_row(form.name, {'label': 'Nom de la Sortie'})}}
-        {{form_row(form.dateTimeStartAt, {'label': 'Date et heure de la sortie'})}}
-        {{form_row(form.duration, {'label': 'Durée'})}}
-        {{form_row(form.dateLimitRegistrationAt, {'label': 'Date limite d inscription'})}}
-        {{form_row(form.nbMaxRegistration, {'label': 'Nombre de places'})}}
-        {{form_row(form.description, {'label': 'Descriptions et Infos'})}}
-    </div>
-    <div class="container text-center">
-        {#<button>Enregistrer</button>#}
-        <button type="submit">Publier la sortie</button>
-        <button>Annuler</button>
-    </div> 
-    {# {{ form_end(formLieu) }} #}
-    {{ form_end(form) }}
+    {{ form(form) }}
+    <a class="btn btn-primary" href="{{ path('app_home') }}">Annuler</a>
 </div>
 {% endblock %}

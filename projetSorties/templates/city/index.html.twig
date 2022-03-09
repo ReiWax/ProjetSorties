@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CityController!{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h1 class="text-center">Ajouter une ville</h1>
+    {% form_theme form 'bootstrap_5_layout.html.twig' %}
+    {{ form(form) }}
+</div>
+{% endblock %}

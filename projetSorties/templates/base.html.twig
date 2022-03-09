@@ -15,6 +15,35 @@
         {% endblock %}
     </head>
     <header>
+    <style>
+    .glow-all{
+    -webkit-animation: glow-all 0.4s ease-in-out infinite alternate;
+  -moz-animation: glow-all 0.4s ease-in-out infinite alternate;
+  animation: glow-all 0.4s ease-in-out infinite alternate;
+}
+
+
+@-webkit-keyframes glow-all {
+  0% {
+   background-color : #FAF6F1
+  }
+  20% {
+    background-color : #F9FAF1
+  }
+  40% {
+    background-color : #F2FAF1
+  }
+  60% {
+    background-color : #F1FAFA
+  }
+  80% {
+    background-color : #F2F1FA
+  }
+  100% {
+    background-color : #FAF1FA
+  }
+}
+    </style>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{path('app_home')}}">
@@ -22,38 +51,53 @@
             </a>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
+                    
+                    {% if app.user %}
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Villes</a>
+                        <a class="nav-link active" aria-current="page" href="{{path('app_city')}}">Ajouter une villes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Sites</a>
+                        <a class="nav-link active" href="{{path('app_location')}}">Ajouter un lieux</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Accueil</a>
-                    </li>
+                    {% endif %}
 
                     {% if app.user %}
                         <li class="nav-item">
-                            <a class="nav-link active" href="{{path('app_user')}}">Mon profil</a>
+                            <a class="nav-link active" href="{{path('app_user_profil')}}">Mon profil</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" href="{{path('app_logout')}}">Se déconnecter</a>
                         </li>
+                        {% if app.user.admin  %}
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{{path('admin')}}">Espace Admin</a>
+                            </li>
+                        {% endif %}
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link active" href="{{path('app_login')}}">Se connecter</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link active" href="{{path('app_register')}}">Créer un compte</a>
                         </li>
                     {% endif %}
+                    
 
                 </ul>
             </div>
         </div>
     </nav>
     </header>
+    <body class="">
     <body>
-
-    <div class="container">
+    <div class="main-content">
+        {% for msg in app.session.flashBag.get('success') %}
+        <div class="alert alert-success">
+            {{ msg }}
+        </div>
+        {% endfor %}
+    </div>
+    <div class="container mt-5 mb-5">
         {% block body %}{% endblock %}
     </div>
     
