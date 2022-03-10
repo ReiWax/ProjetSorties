@@ -80,6 +80,7 @@ class EventRepository extends ServiceEntityRepository
      */
     public function findSearch(SearchData $search,$user)
     {
+
         $qb = $this
         ->createQueryBuilder('e')
         ->select('u', 'e')
@@ -149,40 +150,20 @@ class EventRepository extends ServiceEntityRepository
 
         //On récupère tous les events, puis on fait un soustraction pour voir les évènements auxquels je ne suis pas inscrit
         if(!empty($search->eventIsNotRegistered)){
-            // //Event inscrit
-            // $qb_event_registered = $qb
-            // ->join('e.users','user')
-            // ->andWhere('e.state not in (2)')
-            // ->addSelect('e')
-            // ->andWhere("DATE_ADD(e.dateTimeStartAt,1,'MONTH') > :now")
-            // ->setParameter('now',new \DateTime('now'))
-            // ->andWhere('user.id = :user')
-            // ->andWhere();
-
-            // $query = $qb_event_registered->getQuery();
-            // $tabRegisteredEvent = $query->getResult();
-                
-            // $qb_all_event = $this
-            // ->createQueryBuilder('e')
-            // ->select('e')
-            // ->andWhere('e.state not in (2)');
-            
-            // // $query = $qb_all_event->getQuery();
-            // // $tabAllEvents = $query->getResult();
-            // // $tabNotRegisteredEvent = array();
-            // // foreach($tabAllEvents as $event){
-            // //     if(!empty($tabRegisteredEvent)){
-            // //         foreach($tabRegisteredEvent as $registered){
-            // //             if($registered->getId() != $event->getId()){
-            // //                 array_push($tabNotRegisteredEvent,$event);
-            // //             }
-            // //         }
-            // //     }else{
-            // //         return $tabAllEvents;
-            // //     }
-                
-            // // }
-            // // return $tabNotRegisteredEvent;
+            $qb = $qb
+            ->andWhere("DATE_ADD(e.dateTimeStartAt,1,'MONTH') > :now")
+            ->setParameter('now',new \DateTime('now'))
+            ->andWhere(
+                $qb->expr()->notIn(
+                    'e.id',
+                    $this
+                        ->createQueryBuilder('e2')
+                        ->select('e2.id')
+                        ->join('e2.users','user')
+                        ->where('user.id = :user')
+                        ->getDQL() 
+                )
+            )->setParameter(':user',$user->getId());            
         }
 
         $query = $qb->getQuery();
