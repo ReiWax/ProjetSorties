@@ -20,10 +20,10 @@ class SearchFormType extends AbstractType
         $builder
             ->add('adress', EntityType::class, [
                 'label' => 'Choisir une adresse',
-                'required' => true,
+                'required' => false,
                 'class' => Adress::class,
-                'multiple' => true,
-                'expanded' => true,
+                'multiple' => false,
+                'expanded' => false,
             ])
             ->add('name', TextType::class,  [
                 'required'=>false,

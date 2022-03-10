@@ -153,10 +153,9 @@ class EventRepository extends ServiceEntityRepository
         }
 
         if(!empty($search->adress)){
-                $qb = $qb
-                ->andWhere('e.adress in(:adress)')
-                ->setParameter('adress',$search->adress);
-            
+            $qb = $qb
+            ->andWhere('e.adress= :adress')
+            ->setParameter('adress',$search->adress);
         }
 
         //On récupère tous les events, puis on fait un soustraction pour voir les évènements auxquels je ne suis pas inscrit
