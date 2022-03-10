@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Error - Authorization{% endblock %}
+
+{% block body %}
+<div id="notfound">
+		<div class="notfound">
+			<div class="notfound-404">
+				<h1>Sorry!</h1>
+				<h2>403 - The Page is Forbidden</h2>
+			</div>
+			<a href="{{ path('app_home')}}">Go TO Homepage</a>
+		</div>
+	</div>
+{% endblock %}
