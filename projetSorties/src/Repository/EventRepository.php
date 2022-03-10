@@ -132,7 +132,7 @@ class EventRepository extends ServiceEntityRepository
             ->andWhere('e.dateTimeStartAt < CURRENT_DATE()');
         }
 
-        if(!empty($search->eventIsRegistered)){
+        if(!empty($search->eventIsRegistered) && empty($search->eventIsNotRegistered)){
             $qb = $qb
             ->join('e.users','user')
             ->andWhere("DATE_ADD(e.dateTimeStartAt,1,'MONTH') > :now")
@@ -149,7 +149,7 @@ class EventRepository extends ServiceEntityRepository
         }
 
         //On récupère tous les events, puis on fait un soustraction pour voir les évènements auxquels je ne suis pas inscrit
-        if(!empty($search->eventIsNotRegistered)){
+        if(!empty($search->eventIsNotRegistered) && empty($search->eventIsRegistered)){
             $qb = $qb
             ->andWhere("DATE_ADD(e.dateTimeStartAt,1,'MONTH') > :now")
             ->setParameter('now',new \DateTime('now'))
