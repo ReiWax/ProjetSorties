@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\EventRepository;
 
 class EventController extends AbstractController
 {
@@ -105,6 +106,14 @@ class EventController extends AbstractController
         }
         $event =  $this->entityManager->getRepository(Event::class)->find($id);
         return $this->render('event/modify.html.twig', [ 'form' => $form->createView(),'event' => $event]);
+    }
+
+    public function updatePastEvent(EventRepository $repository){
+        $events = $repository->findPastEvent();
+        $state =  $this->entityManager->getRepository(State::class)->find(6);
+        foreach($events as $event){
+            $event->setState($state);
+        }
     }
 
 }

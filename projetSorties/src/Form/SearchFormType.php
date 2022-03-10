@@ -22,8 +22,8 @@ class SearchFormType extends AbstractType
                 'label' => 'Choisir une adresse',
                 'required' => true,
                 'class' => Adress::class,
-                'multiple' => false,
-                'expanded' => false,
+                'multiple' => true,
+                'expanded' => true,
             ])
             ->add('name', TextType::class,  [
                 'required'=>false,

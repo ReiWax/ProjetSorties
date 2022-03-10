@@ -46,6 +46,7 @@ class EventRepository extends ServiceEntityRepository
         }
     }
 
+ 
     // /**
     //  * @return Event[] Returns an array of Event objects
     //  */
@@ -75,6 +76,15 @@ class EventRepository extends ServiceEntityRepository
     }
     */
 
+    public function findPastEvent()
+    {
+        return $this->createQueryBuilder('e')
+        ->where('e.dateTimeStartAt < CURRENT_DATE()')
+        ->setMaxResults(10)
+        ->getQuery()
+        ->getResult();
+    }
+
     /**
      * Récupère les sorties en lien avec une recherche
      */
@@ -97,10 +107,10 @@ class EventRepository extends ServiceEntityRepository
             empty($search->eventFinished) &&
             empty($search->adress)){
 
-        $qb = $qb
-            ->where("DATE_ADD(e.dateTimeStartAt,1,'MONTH') > :now")
-            ->setParameter('now',new \DateTime('now'))
-           ;
+            $qb = $qb
+                ->where("DATE_ADD(e.dateTimeStartAt,1,'MONTH') > :now")
+                ->setParameter('now',new \DateTime('now'))
+            ;
         }
         if (!empty($search->name)) {
             $qb = $qb
@@ -143,9 +153,10 @@ class EventRepository extends ServiceEntityRepository
         }
 
         if(!empty($search->adress)){
-            $qb = $qb
-            ->andWhere('e.adress= :adress')
-            ->setParameter('adress',$search->adress);
+                $qb = $qb
+                ->andWhere('e.adress in(:adress)')
+                ->setParameter('adress',$search->adress);
+            
         }
 
         //On récupère tous les events, puis on fait un soustraction pour voir les évènements auxquels je ne suis pas inscrit
