@@ -24,6 +24,7 @@ class SearchFormType extends AbstractType
                 'class' => Adress::class,
                 'multiple' => false,
                 'expanded' => false,
+                'placeholder' => 'Toutes les adresses'
             ])
             ->add('name', TextType::class,  [
                 'required'=>false,

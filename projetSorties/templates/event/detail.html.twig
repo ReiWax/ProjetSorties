@@ -31,12 +31,10 @@
 
 
 </style>
-
-
 <div class="example-wrapper">
     <div class="container">
         <h1 class="mb-5 text-center">Detail de la sortie {{event.name }}</h1>
-        {% if event.state.id == 2 %}
+        {% if event.state.id == 6 %}
         <div>
             <p><b>Sortie annulée</b>    </p>
             <p><b>Motif :</b> {{ event.description}}</p>
@@ -78,8 +76,9 @@
                     </tr>
                 </thead>
                 {% for u  in event.users %}
+                <tr>
                 <td> <a href="{{path('app_user_detail',{'id': u.id})}}">{{ u.pseudo }}</a></td>
-                    <td>{{ u.name }} {{u.lastname|upper}}</td>
+                    <td>{{ u.name }} {{u.lastname|upper}}</td></tr>
                 {% endfor %}
             </table>
         </div>

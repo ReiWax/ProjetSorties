@@ -24,7 +24,9 @@ class UpdateUserType extends AbstractType
             ->add('pseudo', TextType::class)
             ->add('name', TextType::class)
             ->add('lastname', TextType::class)
-            ->add('tel', NumberType::class)
+            ->add('tel', NumberType::class, [
+                'required' => false
+            ])
             ->add('imageFile', FileType::class, [
                 'label' => 'Image Choisis (Jpeg, Png)',
                 'mapped' => false,

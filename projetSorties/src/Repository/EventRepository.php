@@ -9,6 +9,7 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Data\SearchData;
+
 /**
  * @method Event|null find($id, $lockMode = null, $lockVersion = null)
  * @method Event|null findOneBy(array $criteria, array $orderBy = null)
@@ -46,35 +47,6 @@ class EventRepository extends ServiceEntityRepository
         }
     }
 
- 
-    // /**
-    //  * @return Event[] Returns an array of Event objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Event
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 
     public function findPastEvent()
     {
@@ -106,7 +78,6 @@ class EventRepository extends ServiceEntityRepository
             empty($search->eventIsOrganizer) &&
             empty($search->eventFinished) &&
             empty($search->adress)){
-
             $qb = $qb
                 ->where("DATE_ADD(e.dateTimeStartAt,1,'MONTH') > :now")
                 ->setParameter('now',new \DateTime('now'))
@@ -155,7 +126,10 @@ class EventRepository extends ServiceEntityRepository
         if(!empty($search->adress)){
             $qb = $qb
             ->andWhere('e.adress= :adress')
-            ->setParameter('adress',$search->adress);
+            ->setParameter('adress',$search->adress)
+            ->andWhere("DATE_ADD(e.dateTimeStartAt,1,'MONTH') > :now")
+            ->setParameter('now',new \DateTime('now'))
+            ;
         }
 
         //On récupère tous les events, puis on fait un soustraction pour voir les évènements auxquels je ne suis pas inscrit

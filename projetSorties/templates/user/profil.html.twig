@@ -12,7 +12,7 @@
         {% endif %}
         </div>
         <div class="col-8">
-            <h1 class="text-center">Votre profile {{ app.user.name }} {{ app.user.lastname }}</h1>
+            <h1 class="text-center">Votre profil {{ app.user.name }} {{ app.user.lastname }}</h1>
             <div class="row mt-5">
                 <div class="card card-body col-4 mr-3">
                     <p><b>Prénom :</b> {{ app.user.name }}</p>
@@ -21,7 +21,7 @@
                     <p><b>Télépone :</b> {{ app.user.tel }}</p>
                     <p><b>Pseudo Utilisateur :</b> {{ app.user.pseudo }}</p>
                 </div>
-                <a class="btn btn-primary mt-5" href="{{ path('app_user_edit') }}" role="button">Modifier mon profile</a>
+                <a class="btn btn-primary mt-5" href="{{ path('app_user_edit') }}" role="button">Modifier mon profil</a>
             </div>
             
         </div>

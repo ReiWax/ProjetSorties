@@ -33,7 +33,7 @@ class UserCrudController extends AbstractCrudController
             TextField::new('password')->setFormType(PasswordType::class),
             ImageField::new('illustration')
             ->setBasePath('uploads/')
-            ->setUploadDir('public/uploads')
+            ->setUploadDir('public/uploads/images')
             ->setUploadedFileNamePattern("[randomhash].[extension]")
             ->setRequired(false),
             AssociationField::new('adress')
